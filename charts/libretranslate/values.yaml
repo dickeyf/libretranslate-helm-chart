@@ -12,6 +12,12 @@ annotations: {}
 # Extra tolerations for pods
 tolerations: []
 
+# Node selectors for pods
+affinity: {}
+
+# Pod affinities
+nodeSelector: {}
+
 # Chart name override
 nameOverride: ""
 
