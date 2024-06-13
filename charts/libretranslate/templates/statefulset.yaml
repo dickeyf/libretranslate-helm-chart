@@ -301,9 +301,17 @@ spec:
           claimName: models-volume
       {{- end }}
       {{- end }}
+      {{- if .Values.affinity }}
+      affinity:
+      {{- toYaml .Values.affinity | nindent 8 }}
+      {{- end }}
+      {{- if .Values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml .Values.nodeSelector | nindent 8 }}
+      {{- end }}
       {{- if .Values.tolerations }}
       tolerations:
-      {{- toYaml .Values.tolerations   | nindent 6 }}
+      {{- toYaml .Values.tolerations | nindent 6 }}
       {{- end }}
   {{- if and .Values.persistence.enabled (or (eq .Values.persistence.models.accessMode "ReadWriteOnce") (eq .Values.persistence.db.accessMode "ReadWriteOnce")) }}
   # still in beta, but this will allow us to delete the volumes when the statefulset is scaled down
