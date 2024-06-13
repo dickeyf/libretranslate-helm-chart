@@ -301,11 +301,11 @@ spec:
           claimName: models-volume
       {{- end }}
       {{- end }}
-      {{- if Values.affinity }}
+      {{- if .Values.affinity }}
       affinity:
       {{- toYaml .Values.affinity | nindent 6 }}
       {{- end }}
-      {{- if Values.nodeSelector }}
+      {{- if .Values.nodeSelector }}
       nodeSelector:
       {{- toYaml .Values.nodeSelector | nindent 6 }}
       {{- end }}
