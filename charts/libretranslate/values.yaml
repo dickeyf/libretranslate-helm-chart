@@ -104,21 +104,25 @@ resources:
 
 # Readiness probe for kubernetes
 readinessProbe:
-  exec:
-    command:
-    - /app/venv/bin/python
-    - /app/scripts/healthcheck.py
+  httpGet:
+    path: /
+    port: 5000
   initialDelaySeconds: 10
-  periodSeconds: 5
+  timeoutSeconds: 30
+  periodSeconds: 45
+  successThreshold: 1
+  failureThreshold: 3
 
 # Liveness probe for kubernetes
 livenessProbe:
-  exec:
-    command:
-    - /app/venv/bin/python
-    - scripts/healthcheck.py
+  httpGet:
+    path: /
+    port: 5000
   initialDelaySeconds: 10
-  periodSeconds: 5
+  timeoutSeconds: 30
+  periodSeconds: 45
+  successThreshold: 1
+  failureThreshold: 3
 
 # Auth secret for basic authentication
 # generate base64-user-password-pair with:
