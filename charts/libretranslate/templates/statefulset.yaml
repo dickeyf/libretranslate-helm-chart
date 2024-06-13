@@ -49,7 +49,7 @@ spec:
 
             cd /app
             pip3 install --no-cache-dir -e .
-            ./scripts/install_models.py
+            ./scripts/install_models.py --update
           volumeMounts:
           - name: models-volume
             mountPath: /home/libretranslate/.local/share/argos-translate
