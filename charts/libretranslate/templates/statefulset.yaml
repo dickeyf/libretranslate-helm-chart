@@ -38,19 +38,18 @@ spec:
       initContainers:
         - name: volume-permissions-and-pre-install-models
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          env:
+            - name: HOME
+              value: "/home/libretranslate/.local/share/argos-translate"
           command:
           - /bin/bash
           - -c
           - |
             mkdir -p /home/libretranslate/.local/share/argos-translate/packages
-            chown -R 1032:1032 /home/libretranslate/.local /app/db
 
-            if [ ! "$(ls -A /home/libretranslate/.local/share/argos-translate/packages)" ]; then
-              echo "Installing models... this can take quite a while depending on your internet connection."
-              /app/venv/bin/python /app/scripts/install_models.py --load_only_lang_codes {{ .Values.appConfig.loadOnly | quote }}
-            else
-              echo "The models directory is not empty, skipping model installation."
-            fi
+            cd /app
+            pip3 install --no-cache-dir -e .
+            ./scripts/install_models.py
           volumeMounts:
           - name: models-volume
             mountPath: /home/libretranslate/.local/share/argos-translate
@@ -85,6 +84,8 @@ spec:
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           env:
+            - name: HOME
+              value: "/home/libretranslate/.local/share/argos-translate"
             {{- if and (.Values.appSettings.debug) (ne .Values.appSettings.debug "") }}
             - name: LT_DEBUG
               valueFrom:
